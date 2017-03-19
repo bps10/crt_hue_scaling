@@ -1,26 +1,29 @@
 clearvars; close all;
-
+ 
 % ---- Set parameters for experiment or display stimulus
 params.subject_id = 'test';
 
 params.stimulus_shape = 'circle';
 params.exp_stim_type = 'dkl';
 
-params.img_x = 50;
-params.img_y = 50;
+params.img_size = 1; % in degrees of visual angle.
 
-params.img_offset_x = 100;
-params.img_offset_y = 100;
+params.monitor_width = 285.75; % in mm
+params.monitor_height = 177.8; % in mm
+
+params.distance_to_screen = 1000;
 
 params.flash_duration = 0.5; % in sec
 
-params.nkeypresses = 5;
 params.nrepeats = 3;
+params.nkeypresses = 5;
 
 params.screen = 0;
 
 params.cal_file = 'Feb13_2014a.mat';
 params.cal_dir = 'cal/files';
+
+params.datetime = datetime;
 
 params.debug_mode = 1;
 
@@ -38,16 +41,26 @@ try
         params.screen, 22  , params.debug_mode);
     
     % center the image as long as not debugging.
+    [width_mm, height_mm] = WindowSize(window);
     if ~params.debug_mode    
-        [width, height] = WindowSize(window);
-        params.img_offset_x = floor(width / 2);
-        params.img_offset_y = floor(height / 2);
+        params.img_offset_x = floor(width_mm / 2);
+        params.img_offset_y = floor(height_mm / 2);
+    else
+        params.img_offset_x = 100;
+        params.img_offset_y = 100;
     end
     
+    % compute img size in pixels
+    theta = deg2rad(params.img_size / 2); % half angle
+    img_mm = 2 * (tan(theta) * params.distance_to_screen);
+    img_pix =  img_mm * (width_mm / params.monitor_width);
+    params.img_x = img_pix;
+    params.img_y = img_pix;
+    
     % background index
-    bkgd_lum = 18;
-    bkgd = GrayIndex(window, bkgd_lum);
-    bkgd = chrom_to_projector_RGB(cal, [0.310, 0.316, bkgd_lum], 'xyY');
+    bkgd_lum = params.background(3);
+    %bkgd = GrayIndex(window, bkgd_lum);
+    bkgd = chrom_to_projector_RGB(cal, params.background);
     
     % display blank screen
     display_blank_screen(window, bkgd);
@@ -73,7 +86,7 @@ try
         xyY = [x y bkgd_lum];
         
         % rgb value of stimulus
-        rgb = chrom_to_projector_RGB(cal, xyY, 'xyY');
+        rgb = chrom_to_projector_RGB(cal, xyY);
 
         % display image
         display_image(window, bkgd, params, rgb);
@@ -112,4 +125,5 @@ catch  %#ok<*CTCH>
     
 end
 
-save(['dat/' params.subject_id '_' date], 'data')
+save(fullfile('dat', params.subject_id, ['data_' date]), 'data');
+save(fullfile('dat', params.subject_id, ['params_' date]), 'params');

@@ -143,8 +143,6 @@ function [params] = hue_scaling_params(params, cal)
 
     params.ntrials = params.ncolors * params.nrepeats;
 
-    params.trial_xyY = zeros(params.ntrials, 5);
-
     % create a vector of indicies based on number of stim & repeats
     indices = repmat(1:length(params.angles), params.nrepeats);
     indices = indices(:);

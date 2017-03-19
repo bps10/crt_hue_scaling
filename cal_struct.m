@@ -19,6 +19,7 @@ function cal = cal_struct(cal_file, cal_dir)
     % use JuddVos xyz vals
     %[T_xyz, S_xyz] = cie1931CMFs();
     load T_xyzJuddVos
+    T_xyzJuddVos = 683 .* T_xyzJuddVos;
     cal = SetSensorColorSpace(cal, T_xyzJuddVos, S_xyzJuddVos);
     cal = SetGammaMethod(cal, 0);
 
