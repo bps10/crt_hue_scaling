@@ -41,8 +41,8 @@ function plot_stimuli(params, cal)
         plot([back(1), stim_params(s, 5)], [back(2), stim_params(s, 6)], 'ko-')
     end
 
-    plots.save_fig(fullfile('img', 'stim', 'CIE_stim', ...
-        params.exp_stim_type), f1);
+    plots.save_fig(fullfile('img', 'stim', params.exp_stim_type,...
+        'CIE_stim'), f1);
 
     % 
     f2 = figure;
@@ -62,7 +62,7 @@ function plot_stimuli(params, cal)
     xlim([min(stim_params(:, 1)) max(stim_params(:, 1))])
     set(gca, 'ytick', -50:25:50)
 
-    plots.save_fig(fullfile('img', 'stim', 'cone_contrast', ...
-        params.exp_stim_type), f2);
+    plots.save_fig(fullfile('img', 'stim', params.exp_stim_type, ...
+        'cone_contrast'), f2);
 
 end

@@ -1,4 +1,4 @@
-function plot_hue_scaling(data)
+function plot_hue_scaling(data, params)
 
 % plot results
 figure; hold on;
@@ -45,4 +45,4 @@ for angle = 0:90:270
     plot(x, y, 'linewidth', 2, 'color', 'k');
 end
 
-plots.save_fig(fullfile('img', params.subject_id, 'UAD'), f);
+plots.save_fig(fullfile('img', params.subject_id, ['UAD_' date]), f);
