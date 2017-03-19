@@ -4,6 +4,7 @@ clearvars; close all;
 params.subject_id = 'test';
 
 params.stimulus_shape = 'circle';
+params.exp_stim_type = 'dkl';
 
 params.img_x = 50;
 params.img_y = 50;
@@ -27,7 +28,7 @@ params.debug_mode = 1;
 cal = cal_struct(params.cal_file, params.cal_dir);
 
 % get hue specific parameters
-params = hue_scaling_params(params); 
+params = hue_scaling_params(params, cal); 
     
 data = zeros(params.ntrials, 11);
 

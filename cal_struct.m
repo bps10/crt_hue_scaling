@@ -1,6 +1,5 @@
 function cal = cal_struct(cal_file, cal_dir)
-    import white.*
-    [T_xyz, S_xyz] = cie1931CMFs();
+    
     try
         %if exist(cal_file, 'file') == 2 && ...
         %        exist(cal_dir, 'dir') == 2
@@ -16,8 +15,11 @@ function cal = cal_struct(cal_file, cal_dir)
         stim.cleanup();
         error('Cal file not found.')
     end
-    
-    cal = SetSensorColorSpace(cal, T_xyz, S_xyz);
-    cal = SetGammaMethod(cal,0);
+
+    % use JuddVos xyz vals
+    %[T_xyz, S_xyz] = cie1931CMFs();
+    load T_xyzJuddVos
+    cal = SetSensorColorSpace(cal, T_xyzJuddVos, S_xyzJuddVos);
+    cal = SetGammaMethod(cal, 0);
 
 end

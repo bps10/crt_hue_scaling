@@ -44,3 +44,5 @@ for angle = 0:90:270
     %plots.arrow(x, y, 2.3);
     plot(x, y, 'linewidth', 2, 'color', 'k');
 end
+
+plots.save_fig(fullfile('img', params.subject_id, 'UAD'), f);
