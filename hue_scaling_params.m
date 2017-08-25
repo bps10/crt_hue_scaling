@@ -17,15 +17,15 @@ function [params] = hue_scaling_params(params, cal)
         params.background = [0.310, 0.316, 18]; % cd/m2
         
     else
-        params.angles = [0 28 53 73 90 110 130 155 180 208 233 253 270 290 310 335];        
-        %params.angles = 0:30:360;
+        %params.angles = [0 28 53 73 90 110 130 155 180 208 233 253 270 290 310 335];        
+        params.angles = 0:45:359;
         
         % The following is adapted from Psychtoolboxes DKLDemo 
         whichCones = 'SmithPokorny';
 
         % Load spectral data and set calibration file
         switch (whichCones)
-            case 'SmithPokorny',
+            case 'SmithPokorny'
                 load T_cones_sp
                 load T_xyzJuddVos
                 S_cones = S_cones_sp;
@@ -73,9 +73,18 @@ function [params] = hue_scaling_params(params, cal)
         rgConeInc = 0.95 * rgScale * rgConeInc;
         sConeInc = 0.95 * sScale * sConeInc;
 
-        [rg, s] = pol2cart(deg2rad(params.angles), 1);
-        rgVals = rgConeInc * rg;
-        sVals = sConeInc * s;
+        % now find rg and s vals for all stimuli at all purity levels
+        purity_vals = [0.25 0.5 1.0]; 
+        params.purity_vals = purity_vals;
+        params.npurity_vals = length(purity_vals);
+        rgVals = [];
+        sVals = [];
+        for sat = 1:params.npurity_vals
+            saturation = purity_vals(sat);
+            [rg, s] = pol2cart(deg2rad(params.angles), saturation);
+            rgVals = [rgVals rgConeInc * rg];
+            sVals = [sVals sConeInc * s];
+        end
                
         % If we find the RGB values corresponding to unit excursions
         % in rg and s directions, we should find a) that the luminance
@@ -134,17 +143,20 @@ function [params] = hue_scaling_params(params, cal)
         params.background = [bg_xyz(1) bg_xyz(2) bgLum];
     end 
     
-    params.stim_params = [params.angles; params.Lcontrast; ...
+    params.stim_params = [repmat(params.angles, ...
+        [1, params.npurity_vals]); reshape(repmat(params.purity_vals, ...
+        [length(params.angles), 1]), [1, length(params.x)]);
+        params.Lcontrast; ...
         params.Mcontrast; params.Scontrast; params.x; params.y]';    
 
     params.ncolors = length(params.angles); 
-    params.lum = params.background(3);
-            
+    params.lum = params.background(3);            
 
-    params.ntrials = params.ncolors * params.nrepeats;
+    params.ntrials = params.ncolors * params.nrepeats * params.npurity_vals;
 
     % create a vector of indicies based on number of stim & repeats
-    indices = repmat(1:length(params.angles), params.nrepeats);
+    indices = repmat(1:length(params.angles) * params.npurity_vals, ...
+        params.nrepeats);
     indices = indices(:);
     % randomize
     rand_ind = randperm(length(indices));

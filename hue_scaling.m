@@ -15,12 +15,12 @@ params.distance_to_screen = 1000;
 
 params.flash_duration = 0.5; % in sec
 
-params.nrepeats = 10;
+params.nrepeats = 1; 
 params.nkeypresses = 5;
 
 params.screen = 0;
-
-params.cal_file = 'Feb13_2014a.mat';
+ 
+params.cal_file = 'Feb13_2014a.mat'; % 'planar_monotor_test.mat';
 params.cal_dir = 'cal/files';
 
 params.datetime = datetime;
@@ -33,7 +33,7 @@ cal = cal_struct(params.cal_file, params.cal_dir);
 % get hue specific parameters
 params = hue_scaling_params(params, cal); 
     
-data = zeros(params.ntrials, 11);
+data = zeros(params.ntrials, 12);
 
 try
     % ---- Set up window
@@ -80,8 +80,8 @@ try
         trial_params = params.stim_params(params.trial_ind(t), :);
         
         % get the xyY value for the trial
-        x = trial_params(5);
-        y = trial_params(6);
+        x = trial_params(6);
+        y = trial_params(7);
         
         xyY = [x y bkgd_lum];
         
@@ -101,8 +101,8 @@ try
         response = get_key_input(params);
 
         % fill in response to data
-        data(t, 1:6) = trial_params;
-        data(t, 7:11) = response;
+        data(t, 1:7) = trial_params;
+        data(t, 8:12) = response;
         
         % inform the subject that the responses were collected
         sound(sin(1:100), 50000);

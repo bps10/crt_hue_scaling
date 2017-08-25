@@ -36,9 +36,9 @@ function plot_stimuli(params, cal)
     % add the stimuli to the plot
     stim_params = params.stim_params;
     back = params.background;
-    nstim = length(stim_params(:, 5));
+    nstim = length(stim_params(:, 6));
     for s = 1:nstim
-        plot([back(1), stim_params(s, 5)], [back(2), stim_params(s, 6)], 'ko-')
+        plot([back(1), stim_params(s, 6)], [back(2), stim_params(s, 7)], 'ko-')
     end
 
     plots.save_fig(fullfile('img', 'stim', params.exp_stim_type,...
@@ -48,14 +48,18 @@ function plot_stimuli(params, cal)
     f2 = figure;
     hold on;
 
-    plot(stim_params(:, 1), stim_params(:, 2), 'r-o', 'linewidth', 2);
-    plot(stim_params(:, 1), stim_params(:, 3), 'g-o', 'linewidth', 2);
-    plot(stim_params(:, 1), stim_params(:, 4) * 0.5, 'b-o', 'linewidth', 2);
+    purities = unique(stim_params(:, 2));
+    for p = 1:length(purities)
+        s_params = stim_params(stim_params(:, 2) == purities(p), :);
+        plot(s_params(:, 1), s_params(:, 3), 'r-o', 'linewidth', 2);
+        plot(s_params(:, 1), s_params(:, 4), 'g-o', 'linewidth', 2);
+        plot(s_params(:, 1), s_params(:, 5) * 0.5, 'b-o', 'linewidth', 2);
+    end
 
-    text(stim_params(5, 1) + 10, stim_params(5, 4) * 0.5 + 2, 'S-cone (x0.5)', ...
+    text(s_params(7, 1) - 45, s_params(7, 5) * 0.5 - 5, 'S-cone (x0.5)', ...
         'fontsize', 20)
-    text(stim_params(9, 1) + 10, stim_params(9, 3) + 3, 'M-cone', 'fontsize', 20)
-    text(stim_params(10, 1) + 10, stim_params(10, 2) - 3, 'L-cone', 'fontsize', 20)
+    text(s_params(1, 1) + 10, s_params(1, 4) - 5, 'M-cone', 'fontsize', 20)
+    text(s_params(3, 1) + 10, s_params(3, 3) - 9, 'L-cone', 'fontsize', 20)
 
     plots.nice_axes('color angle', 'cone contrast', 20);
 
