@@ -47,7 +47,7 @@ function [params] = hue_scaling_params(params, cal)
         calLMS = SetGammaMethod(calLMS,1);
         calLum = SetSensorColorSpace(cal, T_Y, S_Y);
 
-        % Define background: xyY = 0.3139 0.3246 40.67
+        % Define background: rgb [0.25 0.2 0.2 = xyY [0.3139 0.3246 40.67]
         bgLMS = PrimaryToSensor(calLMS, [0.25 0.2 0.2]');
 
         % Get matrix that transforms between incremental

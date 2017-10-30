@@ -28,11 +28,12 @@ function response = get_key_input(params, input_type)
                 response(keyN) = 5;
                 keyN = keyN + 1;
 
-            elseif strcmp(keyname, 'ESCAPE')|| strcmp(keyname, 'escape')
+            elseif strcmpi(keyname, 'escape')
                 % ---------- Exit program if 'escape' key is pressed.
                 cleanup();
                 keyN = params.nkeypresses + 1;
-                response = nan;
+                response = 'end';
+                break
 
             end
             pause(0.2);

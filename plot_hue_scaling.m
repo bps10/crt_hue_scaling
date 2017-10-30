@@ -1,7 +1,7 @@
 function plot_hue_scaling(data, params)
 
 % plot results
-figure; hold on;
+f = figure; hold on;
 plots.format_uad_axes();
 names = {'red', 'green', 'blue', 'yellow', 'white'};
 
@@ -41,23 +41,23 @@ for p = 1:length(purities)
 end
 set(gca, 'FontSize', 22);
 
-f = figure; hold on; box off;
-plots.format_uad_axes();
-
-plots.errorbarxy(summary(:, 1), summary(:, 2), ...
-    summary(:, 3), summary(:, 4), {'ko-', 'k', 'k'});
-
-plot([summary(1, 1), summary(end-1, 1)], ...
-    [summary(1, 2) summary(end-1, 2)], 'k-')
-text(summary(:, 1), summary(:, 2), num2str(angles), 'fontsize', 15);
-
-for angle = 0:90:270
-    ind = angles == angle;
-    x = [0, summary(ind, 1)];
-    y = [0, summary(ind, 2)];
-    
-    %plots.arrow(x, y, 2.3);
-    plot(x, y, 'linewidth', 2, 'color', 'k');
-end
+% f = figure; hold on; box off;
+% plots.format_uad_axes();
+% 
+% plots.errorbarxy(summary(:, 3), summary(:, 4), ...
+%     summary(:, 5), summary(:, 6), {'ko-', 'k', 'k'});
+% 
+% plot([summary(1, 3), summary(end-1, 3)], ...
+%     [summary(1, 4) summary(end-1, 4)], 'k-')
+% text(summary(:, 3), summary(:, 4), num2str(angles), 'fontsize', 15);
+% 
+% for angle = 0:90:270
+%     ind = angles == angle;
+%     x = [0, summary(ind, 3)];
+%     y = [0, summary(ind, 4)];
+%     
+%     %plots.arrow(x, y, 2.3);
+%     plot(x, y, 'linewidth', 2, 'color', 'k');
+% end
 
 plots.save_fig(fullfile('img', params.subject_id, ['UAD_' date]), f);

@@ -23,10 +23,10 @@ box off;
 
 figure(2);
 
-T_xyz1931 = csvread('data/ciexyz31.csv')';
+T_xyz1931 = csvread('../ciexyz31.csv')';
 S_xyz1931 = [380, 5, 81];
 
-CMFs = SplineCmf(S_xyz1931, T_xyz1931, [380 1 401]);
+CMFs = SplineCmf(S_xyz1931, T_xyz1931, cal.S_device);
 %wvlens = SToWls(cal.S_device);
 
 cor_xyz = cal.P_device' * CMFs';        
