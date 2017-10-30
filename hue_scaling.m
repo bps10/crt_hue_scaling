@@ -21,7 +21,7 @@ params.nkeypresses = 5; % number of hue scaling button presses (use 5).
 params.screen = 0;
  
 params.cal_file = 'planar_monitor_test.mat'; % 'Feb13_2014a.mat'
-params.cal_dir = 'cal/files';
+params.cal_dir = fullfile('cal', 'files');
 
 params.debug_mode = 0 ;
 
