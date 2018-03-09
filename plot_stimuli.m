@@ -64,7 +64,7 @@ function plot_stimuli(params, cal)
     plots.nice_axes('color angle', 'cone contrast', 20);
 
     xlim([min(stim_params(:, 1)) max(stim_params(:, 1))])
-    set(gca, 'ytick', -50:25:50)
+    %set(gca, 'ytick', -50:25:50)
 
     plots.save_fig(fullfile('img', 'stim', params.exp_stim_type, ...
         'cone_contrast'), f2);

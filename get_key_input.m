@@ -12,19 +12,22 @@ function response = get_key_input(params, input_type)
             [~, keycode, ~] = KbWait(-1);
             keyname = KbName(keycode);
 
-            if strcmp(keyname(1), '1') 
+            if strcmp(keyname(end), '0') 
+                response(keyN) = 0;
+                keyN = keyN + 1;            
+            elseif strcmp(keyname(end), '1') 
                 response(keyN) = 1;
                 keyN = keyN + 1;
-            elseif strcmp(keyname(1), '2')
+            elseif strcmp(keyname(end), '2')
                 response(keyN) = 2;
                 keyN = keyN + 1;
-            elseif strcmp(keyname(1), '3')
+            elseif strcmp(keyname(end), '3')
                 response(keyN) = 3;
                 keyN = keyN + 1;            
-            elseif strcmp(keyname(1), '4')
+            elseif strcmp(keyname(end), '4')
                 response(keyN) = 4;
                 keyN = keyN + 1;
-            elseif strcmp(keyname(1), '5')
+            elseif strcmp(keyname(end), '5')
                 response(keyN) = 5;
                 keyN = keyN + 1;
 

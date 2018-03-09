@@ -48,7 +48,8 @@ function [params] = hue_scaling_params(params, cal)
         calLum = SetSensorColorSpace(cal, T_Y, S_Y);
 
         % Define background: rgb [0.25 0.2 0.2 = xyY [0.3139 0.3246 40.67]
-        bgLMS = PrimaryToSensor(calLMS, [0.25 0.2 0.2]');
+        %bgLMS = PrimaryToSensor(calLMS, [0.25 0.2 0.2]');
+        bgLMS = PrimaryToSensor(calLMS, [0.9 0.9 0.9]');
 
         % Get matrix that transforms between incremental
         % cone coordinates and DKL coordinates 
@@ -73,14 +74,12 @@ function [params] = hue_scaling_params(params, cal)
         rgConeInc = 0.95 * rgScale * rgConeInc;
         sConeInc = 0.95 * sScale * sConeInc;
 
-        % now find rg and s vals for all stimuli at all purity levels
-        purity_vals = [0.25 0.5 1.0]; 
-        params.purity_vals = purity_vals;
-        params.npurity_vals = length(purity_vals);
+        % now find rg and s vals for all stimuli at all purity levels       
+        params.npurity_vals = length(params.purity_vals);
         rgVals = [];
         sVals = [];
         for sat = 1:params.npurity_vals
-            saturation = purity_vals(sat);
+            saturation = params.purity_vals(sat);
             [rg, s] = pol2cart(deg2rad(params.angles), saturation);
             rgVals = [rgVals rgConeInc * rg];
             sVals = [sVals sConeInc * s];

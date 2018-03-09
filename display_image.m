@@ -1,9 +1,17 @@
-function display_image(window, background, params, rgb)
+function display_image(window, background, params, rgb, texturePointer)
     import white.*
+    
+    if nargin < 5
+        texturePointer = [];
+    end
     
     % ---------- Image Display ---------- 
     % 1. Colors the entire window gray.
     Screen('FillRect', window, background);
+    
+    if ~isempty(texturePointer)
+        Screen('DrawTexture', window, texturePointer);
+    end
     
     % 2. Create stimulus
     rect = [0, 0, params.img_x, params.img_y];
